@@ -1,0 +1,490 @@
+/* === Vars & Fonts === */
+:root {
+  --color-blue300: #61C3E3;
+  --color-orange200: #f7cd90;
+  --color-orange300: #F4B867;
+  --color-orange500: #ee9d41;
+  --color-cyan300: #8be3d1;
+  --color-teal300: #91A19D;
+  --color-teal400: #798d88;
+  --color-teal500: #617a74;
+  --color-teal800: #384441;
+  --color-teal900: #272f2d;
+  --color-teal1000: #131615;
+  --font-sans: system-ui, sans-serif;
+  --type-base: 14;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* === Reset === */
+html {
+  box-sizing: border-box;
+  font-size: max(calc(var(--type-base) * 1px), calc(var(--type-base) / 900 * 100vmin));
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* === Base, Type, & Layout === */
+body {
+  --type-heading-color: var(--color-orange200);
+  --type-body-color: var(--color-teal400);
+  --type-sec-color: var(--color-teal800);
+  --link-color: var(--color-cyan300);
+  --light-color: var(--color-cyan300);
+  --bg-color: var(--color-teal1000);
+  --border-color: var(--color-teal900);
+  --size-gutter: calc(32 / var(--type-base) * 1rem);
+  display: grid;
+  grid-template-rows: [row-start] calc(var(--size-gutter) * 1.75) repeat(4, minmax(max-content, auto)) calc(var(--size-gutter) / 2) [row-end];
+  grid-template-columns: [col-start] calc(var(--size-gutter) * 2.5) repeat(5, 1fr) calc(var(--size-gutter) * 2) [col-end];
+  grid-template-areas:
+    "pad-top pad-top pad-top pad-top pad-top pad-top pad-top"
+    "legend-logo logo social social social social gutter"
+    "legend-intro abb intro intro intro intro gutter"
+    "legend-details attr-1 attr-2 about about attr-3 gutter"
+    "legend-details attr-1 attr-2 about about attr-3 gutter"
+    "pad-bot pad-bot pad-bot pad-bot pad-bot pad-bot pad-bot";
+  gap: 1px;
+  place-items: stretch;
+  font-family: var(--font-sans);
+  color: var(--type-body-color);
+  background-color: var(--bg-color);
+}
+@media (max-aspect-ratio: 7/5) {
+  body {
+    grid-template-rows: [row-start] calc(var(--size-gutter) * 1.75) repeat(16, minmax(max-content, auto)) calc(var(--size-gutter) / 2) [row-end];
+    grid-template-columns: [col-start] calc(var(--size-gutter) * 2.5) repeat(3, 1fr) calc(
+        var(--size-gutter) * 2
+      ) [col-end];
+    grid-template-areas:
+      "pad-top pad-top pad-top pad-top pad-top"
+      "legend-logo logo social social gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-intro abb intro intro gutter"
+      "legend-blank blank about about gutter"
+      "legend-blank blank about about gutter"
+      "legend-blank blank about about gutter"
+      "legend-blank blank about about gutter"
+      "legend-details attr-1 about about gutter"
+      "legend-details attr-2 about about gutter"
+      "legend-details attr-3 about about gutter"
+      "pad-bot pad-bot pad-bot pad-bot pad-bot";
+  }
+}
+@media (max-width: 600px) {
+  body {
+    --size-gutter: calc(24 / var(--type-base) * 1rem);
+    grid-template-rows: [row-start] calc(var(--size-gutter) * 1.75) auto 1fr auto auto 1fr auto auto auto auto calc(var(--size-gutter) / 2) [row-end];
+    grid-template-columns: [col-start] calc(var(--size-gutter) * 2.5) repeat(2, 1fr) var(--size-gutter) [col-end];
+    grid-template-areas:
+      "pad-top pad-top pad-top pad-top"
+      "legend-logo logo logo gutter"
+      "legend-blank-1 blank-1 blank-1 gutter"
+      "legend-intro intro intro gutter"
+      "legend-intro social social gutter"
+      "legend-blank-2 blank-2 blank-2 gutter"
+      "legend-details about about gutter"
+      "legend-details attr-1 abb gutter"
+      "legend-details attr-2 abb gutter"
+      "legend-details attr-3 abb gutter"
+      "pad-bot pad-bot pad-bot pad-bot";
+  }
+}
+
+body > *:not(section, div) {
+  position: relative;
+  display: grid;
+  padding: calc(var(--size-gutter) / 2);
+  background-color: var(--bg-color);
+}
+
+h2,
+dt {
+  font-size: calc(12 / var(--type-base) * 1rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* === Elements === */
+/* --- Logo --- */
+header {
+  grid-area: logo;
+  place-items: start;
+}
+header svg {
+  width: calc(81 / var(--type-base) * 1rem);
+  height: auto;
+}
+header svg path {
+  stroke: var(--type-heading-color);
+}
+
+/* --- Legend --- */
+legend h2 {
+  display: inline-flex;
+  padding: 0 calc(8 / var(--type-base) * 1em);
+  background-color: var(--bg-color);
+  color: var(--type-sec-color);
+}
+legend hr {
+  border: none;
+  border-left: solid 1px var(--border-color);
+}
+legend:nth-last-of-type(4) {
+  grid-area: legend-logo / legend-logo / legend-details / legend-details;
+  place-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+legend:nth-last-of-type(3) {
+  grid-area: legend-logo;
+  text-align: right;
+  align-self: start;
+  transform-origin: top;
+  transform: rotate(-90deg) translate(-50%, -50%);
+}
+legend:nth-last-of-type(2) {
+  grid-area: legend-intro;
+  text-align: center;
+  align-self: end;
+  transform: rotate(-90deg);
+  margin-bottom: 3rem;
+}
+legend:nth-last-of-type(1) {
+  grid-area: legend-details;
+  align-self: end;
+  transform-origin: bottom;
+  transform: rotate(-90deg) translate(50%, 50%);
+}
+@media (min-aspect-ratio: 2/3) {
+  legend:nth-last-of-type(3) h2 {
+    padding-right: 0;
+  }
+
+  legend:nth-last-of-type(1) h2 {
+    padding-left: 0;
+  }
+}
+@media (max-width: 600px) {
+  legend:nth-last-of-type(2),
+  legend:nth-last-of-type(1) {
+    align-self: start;
+    transform-origin: bottom;
+    transform: rotate(-90deg) translate(-50%, 50%);
+    margin-bottom: 0;
+  }
+
+  legend:nth-last-of-type(3) {
+    display: none;
+  }
+}
+
+/* --- Social --- */
+nav {
+  grid-area: social;
+  align-content: start;
+  justify-content: end;
+}
+nav ul {
+  --gap-size: calc(6 / var(--type-base) * 1em);
+  --hover-trans: opacity 0.3s ease-out;
+  --color-trans: color 0.3s ease-out;
+  --hover-radius: calc(2 / var(--type-base) * 1rem);
+  position: relative;
+  display: grid;
+  grid-gap: var(--gap-size);
+  grid-auto-flow: column;
+  padding: calc(var(--gap-size) * 2 / 3);
+}
+nav ul::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: solid 1px var(--border-color);
+  border-radius: var(--hover-radius);
+  transition: var(--hover-trans);
+  opacity: 0;
+  will-change: opacity;
+}
+nav ul:hover::before {
+  opacity: 1;
+}
+nav ul li::before {
+  content: "/";
+  display: inline-block;
+  margin-right: var(--gap-size);
+}
+nav ul li:first-child::before {
+  display: none;
+}
+nav ul li a {
+  position: relative;
+  display: inline-block;
+  padding: calc(var(--gap-size) / 3) var(--gap-size);
+  transition: var(--color-trans);
+  will-change: color;
+}
+nav ul li a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--hover-radius);
+  transition: var(--hover-trans);
+  opacity: 0;
+  will-change: opacity;
+}
+nav ul li a:hover {
+  color: var(--link-color);
+}
+nav ul li a:hover::before {
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  nav {
+    justify-content: start;
+  }
+
+  nav ul {
+    margin: calc(var(--gap-size) * -1) 0 0 calc(var(--gap-size) * -5 / 3);
+  }
+}
+
+/* --- abb Circle --- */
+figure {
+  --circle-size: calc(84 / var(--type-base) * 1rem);
+  --anim-time: 10s;
+  grid-area: abb;
+  align-content: end;
+  justify-content: center;
+}
+figure figcaption {
+  position: relative;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  border: solid 1px var(--border-color);
+  animation-name: spin;
+  animation-duration: var(--anim-time);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+figure figcaption b {
+  --lettercon-size: calc(24 / var(--type-base) * 1rem);
+  --font-size: calc(19 / var(--type-base) * 1rem);
+  display: grid;
+  place-items: center;
+  position: absolute;
+  width: var(--lettercon-size);
+  height: var(--lettercon-size);
+  font-size: var(--font-size);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--type-heading-color);
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  animation-name: spin;
+  animation-duration: var(--anim-time);
+  animation-iteration-count: infinite;
+  animation-direction: reverse;
+  animation-timing-function: linear;
+}
+figure figcaption b:nth-child(1) {
+  left: calc(-1 / var(--type-base) * 1rem);
+  top: 0;
+}
+figure figcaption b:nth-child(2) {
+  left: calc(69 / var(--type-base) * 1rem);
+  top: calc(37 / var(--type-base) * 1rem);
+}
+figure figcaption b:nth-child(3) {
+  left: calc(37 / var(--type-base) * 1rem);
+  top: calc(70 / var(--type-base) * 1rem);
+}
+@media (max-aspect-ratio: 7/5) {
+  figure {
+    justify-content: start;
+  }
+}
+@media (max-width: 600px) {
+  figure {
+    place-content: center;
+  }
+}
+
+/* --- Intro --- */
+main {
+  grid-area: intro;
+  display: grid;
+  align-items: end;
+}
+main h1 {
+  max-width: 26ch;
+  font-size: calc(30 / var(--type-base) * 1rem);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--type-heading-color);
+}
+@media (max-width: 600px) {
+  main h1 {
+    max-width: 100%;
+    font-size: calc(28 / var(--type-base) * 1rem);
+  }
+}
+
+/* --- About --- */
+article {
+  grid-area: about;
+  align-content: end;
+}
+aside p {
+  margin-top: 1em;
+  line-height: 1.5;
+}
+@media (min-aspect-ratio: 8/5) {
+  aside {
+    columns: 2;
+    column-gap: var(--size-gutter);
+  }
+
+  aside p {
+    display: inline;
+    font-size: calc(12 / var(--type-base) * 1rem);
+  }
+}
+
+/* --- Details --- */
+dl {
+  align-content: end;
+}
+dl:nth-of-type(1) {
+  grid-area: attr-1;
+}
+dl:nth-of-type(2) {
+  grid-area: attr-2;
+}
+dl:nth-of-type(3) {
+  grid-area: attr-3;
+}
+dl dt {
+  margin-bottom: calc(6 / var(--type-base) * 1rem);
+}
+dl dd {
+  font-size: calc(16 / var(--type-base) * 1rem);
+  color: var(--type-heading-color);
+}
+#time::after {
+  content: attr(data-time);
+}
+
+/* --- Covers (overtop bg) --- */
+body > div {
+  position: relative;
+  background-color: var(--bg-color);
+}
+body > div:nth-of-type(1) {
+  grid-area: pad-top;
+}
+body > div:nth-of-type(2) {
+  grid-area: pad-bot;
+}
+body > div:nth-of-type(3) {
+  grid-area: gutter;
+}
+body > div:nth-of-type(4),
+body > div:nth-of-type(5) {
+  display: none;
+}
+@media (max-aspect-ratio: 7/5) {
+  body > div:nth-of-type(4) {
+    grid-area: blank;
+    display: block;
+  }
+}
+@media (max-width: 600px) {
+  body > div:nth-of-type(4),
+  body > div:nth-of-type(5) {
+    display: block;
+  }
+  body > div:nth-of-type(4) {
+    grid-area: blank-1;
+  }
+  body > div:nth-of-type(5) {
+    grid-area: blank-2;
+  }
+}
+
+/* --- Light --- */
+section {
+  grid-area: row-start / col-start / row-end / col-end;
+  position: relative;
+  overflow: hidden;
+}
+section span {
+  --size: 50vw;
+  width: var(--size);
+  height: var(--size);
+  position: absolute;
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--color-cyan300) 0%, var(--color-cyan300) 25%, var(--color-orange500) 67%, var(--bg-color) 100%);
+  transform: translate3d(-50%, -50%, 0px);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+@media (max-aspect-ratio: 7/5) {
+  section span {
+    --size: 50vh;
+  }
+}
